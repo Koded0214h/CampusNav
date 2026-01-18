@@ -5,7 +5,7 @@ export const Landing: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen w-full relative overflow-hidden">
+        <div className="min-h-screen w-full relative overflow-y-auto">
             {/* Animated Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0d1117]"></div>
 
@@ -33,12 +33,20 @@ export const Landing: React.FC = () => {
                         <h1 className="text-2xl font-bold tracking-tight">CampusNav</h1>
                     </div>
                 </div>
-                <button
-                    onClick={() => navigate('/login')}
-                    className="glass-card px-6 py-2.5 rounded-xl font-semibold hover:bg-white/10 transition-all"
-                >
-                    Sign In
-                </button>
+                <div className="flex gap-3">
+                    <button
+                        onClick={() => navigate('/signup')}
+                        className="glass-card px-6 py-2.5 rounded-xl font-semibold hover:bg-white/10 transition-all"
+                    >
+                        Sign Up
+                    </button>
+                    <button
+                        onClick={() => navigate('/login')}
+                        className="glass-card px-6 py-2.5 rounded-xl font-semibold hover:bg-white/10 transition-all"
+                    >
+                        Sign In
+                    </button>
+                </div>
             </header>
 
             {/* Hero Section */}
@@ -70,12 +78,6 @@ export const Landing: React.FC = () => {
                             className="w-full sm:w-auto px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-2xl font-bold shadow-lg shadow-blue-500/30 transition-all duration-200 hover:scale-105"
                         >
                             Get Started Free
-                        </button>
-                        <button
-                            onClick={() => navigate('/login')}
-                            className="w-full sm:w-auto px-8 py-4 glass-card rounded-2xl font-bold hover:bg-white/10 transition-all duration-200"
-                        >
-                            Explore Features
                         </button>
                     </div>
                 </div>
