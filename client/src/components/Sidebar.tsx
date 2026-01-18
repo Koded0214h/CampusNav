@@ -16,6 +16,56 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
         toast.success('Logged out successfully');
         navigate('/login');
     };
+
+    const allPlaces = [
+        {
+            name: 'Main Library',
+            status: 'Open • Quiet Zone',
+            icon: '📖',
+            statusColor: 'bg-green-500',
+            type: 'Library',
+            distance: '200m',
+            rating: 4.5,
+            reviewCount: 128,
+            isOpen: true,
+            closesAt: '10:00 PM',
+            capacity: '500+ seats • Study Zones',
+            accessibility: 'Wheelchair accessible via Main Entrance'
+        },
+        {
+            name: 'Student Union',
+            status: 'Open • Busy',
+            icon: '🏟️',
+            statusColor: 'bg-yellow-500',
+            type: 'Recreation',
+            distance: '150m',
+            rating: 4.3,
+            reviewCount: 94,
+            isOpen: true,
+            closesAt: '11:00 PM',
+            capacity: '300+ capacity • Event Space',
+            accessibility: 'Fully accessible'
+        },
+        {
+            name: 'The Gym',
+            status: 'Open • Moderate',
+            icon: '🏋️',
+            statusColor: 'bg-green-500',
+            type: 'Fitness',
+            distance: '350m',
+            rating: 4.7,
+            reviewCount: 156,
+            isOpen: true,
+            closesAt: '9:00 PM',
+            capacity: '50+ equipment • Group Classes',
+            accessibility: 'Ground floor accessible'
+        },
+    ];
+
+    const filteredPlaces = allPlaces.filter(place =>
+        place.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        place.type.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     return (
         <>
             {/* Mobile Handle - Only visible on small screens */}
@@ -37,12 +87,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
                     {/* Logout Button */}
                     <button
                         onClick={handleLogout}
-                        className="md:hidden glass-card px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-white/10 transition-colors"
+                        className="glass-card px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-white/10 transition-colors flex items-center gap-1.5"
                         title="Logout"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
+                        <span className="hidden md:inline">Logout</span>
                     </button>
                 </div>
 
@@ -75,34 +126,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <h2 className="text-sm font-semibold text-white/80">Popular Spots</h2>
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-sm font-semibold text-white/80">Popular Spots</h2>
+                        {searchQuery && (
+                            <span className="text-xs text-white/50">{filteredPlaces.length} results</span>
+                        )}
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
-                        {[
-                            { name: 'Main Library', status: 'Open • Quiet Zone', icon: '📖', statusColor: 'bg-green-500' },
-                            { name: 'Student Union', status: 'Open • Busy', icon: '🏟️', statusColor: 'bg-yellow-500' },
-                            { name: 'The Gym', status: 'Open • Moderate', icon: '🏋️', statusColor: 'bg-green-500' },
-                        ].map((spot, i) => (
-                            <div
-                                key={i}
-                                onClick={() => onPlaceSelect(spot)}
-                                className="glass-card rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-colors"
-                            >
-                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">
-                                    {spot.icon}
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="text-sm font-bold">{spot.name}</h3>
-                                    <div className="flex items-center gap-2 mt-0.5">
-                                        <div className={`w-1.5 h-1.5 rounded-full ${spot.statusColor}`}></div>
-                                        <span className="text-[10px] text-white/50">{spot.status}</span>
+                        {filteredPlaces.length > 0 ? (
+                            filteredPlaces.map((spot, i) => (
+                                <div
+                                    key={i}
+                                    onClick={() => onPlaceSelect(spot)}
+                                    className="glass-card rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-colors"
+                                >
+                                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">
+                                        {spot.icon}
                                     </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-sm font-bold">{spot.name}</h3>
+                                        <div className="flex items-center gap-2 mt-0.5">
+                                            <div className={`w-1.5 h-1.5 rounded-full ${spot.statusColor}`}></div>
+                                            <span className="text-[10px] text-white/50">{spot.status}</span>
+                                        </div>
+                                    </div>
+                                    <svg className="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
                                 </div>
-                                <svg className="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
+                            ))
+                        ) : (
+                            <div className="glass-card rounded-xl p-8 text-center">
+                                <p className="text-sm text-white/60">No places found matching "{searchQuery}"</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </div>
 
