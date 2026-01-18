@@ -6,7 +6,7 @@ interface AuthLayoutProps {
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
+        <div className="min-h-screen w-full flex items-center justify-center p-4 md:p-8 relative overflow-hidden overflow-x-hidden">
             {/* Animated Background Gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0d1117]"></div>
 

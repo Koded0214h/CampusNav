@@ -18,7 +18,7 @@ const MainView = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#0d1117] relative" onClick={() => setShowDetails(!showDetails)}>
+    <div className="flex h-screen w-screen overflow-hidden overflow-x-hidden bg-[#0d1117] relative" onClick={() => setShowDetails(!showDetails)}>
       <Sidebar />
       <main className="flex-1 relative">
         <Map />

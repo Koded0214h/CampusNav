@@ -5,7 +5,7 @@ export const Landing: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen w-full relative overflow-y-auto">
+        <div className="min-h-screen w-full relative overflow-y-auto overflow-x-hidden">
             {/* Animated Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0d1117]"></div>
 
