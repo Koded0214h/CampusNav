@@ -1,6 +1,12 @@
 import React from 'react';
+import toast from 'react-hot-toast';
 
-export const PlaceDetails: React.FC = () => {
+interface PlaceDetailsProps {
+    place: any;
+    onClose: () => void;
+}
+
+export const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place, onClose }) => {
     return (
         <div className="fixed bottom-0 left-0 w-full md:absolute md:top-6 md:left-88 md:w-96 md:bottom-auto h-[60vh] md:max-h-[calc(100vh-48px)] glass-effect rounded-t-[32px] md:rounded-2xl overflow-hidden flex flex-col z-[35] animate-in fade-in slide-in-from-bottom-4 md:slide-in-from-left-4 duration-300">
             <div className="relative h-48 shrink-0">
@@ -9,6 +15,31 @@ export const PlaceDetails: React.FC = () => {
                     alt="Engineering Lecture Theater"
                     className="w-full h-full object-cover"
                 />
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 md:hidden w-8 h-8 glass-card rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors z-10"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                {/* Place Image/Icon */}
+                <div className="w-full h-48 md:h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-t-[32px] md:rounded-2xl overflow-hidden relative flex items-center justify-center">
+                    {/* If you want to use an image, uncomment and adjust: */}
+                    {/* {place.imageUrl ? (
+                        <img
+                            src={place.imageUrl}
+                            alt={place.name}
+                            className="w-full h-full object-cover"
+                        />
+                    ) : ( */}
+                    <div className="absolute inset-0 flex items-center justify-center text-6xl md:text-8xl">
+                        {place.icon || '🏛️'}
+                    </div>
+                    {/* )} */}
+                </div>
                 <div className="absolute top-4 right-4 flex gap-2">
                     <button className="w-8 h-8 glass-card rounded-lg flex items-center justify-center">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,36 +56,50 @@ export const PlaceDetails: React.FC = () => {
 
             <div className="p-5 flex flex-col gap-4 overflow-y-auto">
                 <div>
-                    <h2 className="text-xl font-bold">Engineering Lecture Theater 2</h2>
-                    <p className="text-xs text-white/50 mt-1">Building 4 • Level 2 • Room 204</p>
+                    <h2 className="text-2xl md:text-3xl font-bold">{place.name || 'Unknown Place'}</h2>
+                    <p className="text-sm md:text-base text-white/60">{place.type || 'Campus Location'} • {place.distance || '200m'} away</p>
                     <div className="flex items-center gap-2 mt-2">
                         <div className="flex text-yellow-500">
-                            {['★', '★', '★', '★', '☆'].map((s, i) => <span key={i}>{s}</span>)}
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <span key={i}>{i < Math.floor(place.rating) ? '★' : (i < place.rating ? '★' : '☆')}</span>
+                            ))}
                         </div>
-                        <span className="text-xs font-bold text-white/80">4.5</span>
-                        <span className="text-[10px] text-white/40">(128 reviews)</span>
+                        <span className="text-xs font-bold text-white/80">{place.rating.toFixed(1)}</span>
+                        <span className="text-[10px] text-white/40">({place.reviewCount} reviews)</span>
                     </div>
                 </div>
 
                 <div className="flex gap-2">
-                    <button className="flex-1 h-12 bg-blue-500 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg shadow-blue-500/20">
+                    <button
+                        onClick={() => {
+                            toast.success(`Getting directions to ${place.name}...`);
+                            setTimeout(() => onClose(), 1500);
+                        }}
+                        className="flex-1 h-12 md:h-14 bg-blue-500 hover:bg-blue-600 rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
+                    >
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                         </svg>
-                        Navigate Here
+                        Navigate
                     </button>
-                    <button className="w-12 h-12 glass-card rounded-xl flex items-center justify-center">
+                    <button
+                        onClick={() => {
+                            toast.success(`Saved ${place.name} to favorites!`);
+                        }}
+                        className="flex-1 h-12 md:h-14 glass-card rounded-xl font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+                    >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
+                        Save
                     </button>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
                     {[
-                        { label: 'Open Now', value: 'Closes at 10:00 PM', icon: '🕒' },
-                        { label: 'Capacity', value: '250 Seats • Lecture Style', icon: '👥' },
-                        { label: 'Accessibility', value: 'Wheelchair accessible via North Lift', icon: '♿' },
+                        { label: 'Status', value: place.isOpen ? `Open Now • Closes at ${place.closesAt}` : 'Closed', icon: '🕒' },
+                        { label: 'Capacity', value: place.capacity, icon: '👥' },
+                        { label: 'Accessibility', value: place.accessibility, icon: '♿' },
                     ].map((item, i) => (
                         <div key={i} className="flex gap-3">
                             <div className="w-9 h-9 glass-card rounded-lg flex items-center justify-center shrink-0">

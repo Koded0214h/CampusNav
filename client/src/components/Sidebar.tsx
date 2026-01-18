@@ -1,6 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+    onPlaceSelect: (place: any) => void;
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, setSearchQuery }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');
+        toast.success('Logged out successfully');
+        navigate('/login');
+    };
     return (
         <>
             {/* Mobile Handle - Only visible on small screens */}
@@ -19,12 +34,23 @@ export const Sidebar: React.FC = () => {
                             <p className="text-[10px] text-white/50 uppercase tracking-widest font-semibold">Student Map & Insights</p>
                         </div>
                     </div>
-                    {/* Mobile Collapse Toggle or Avatars would go here if needed */}
+                    {/* Logout Button */}
+                    <button
+                        onClick={handleLogout}
+                        className="md:hidden glass-card px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-white/10 transition-colors"
+                        title="Logout"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
                 </div>
 
                 <div className="relative">
                     <input
                         type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search (e.g., 'LT 2')..."
                         className="w-full h-10 md:h-12 glass-input rounded-xl pl-9 md:pl-11 pr-4 text-xs md:text-sm"
                     />
@@ -34,10 +60,16 @@ export const Sidebar: React.FC = () => {
                 </div>
 
                 <div className="flex gap-2">
-                    <button className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2">
+                    <button
+                        onClick={() => onPlaceSelect({ name: 'Campus Canteen', type: 'canteen', icon: '🍴' })}
+                        className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
+                    >
                         <span>🍴</span> Canteen
                     </button>
-                    <button className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2">
+                    <button
+                        onClick={() => onPlaceSelect({ name: 'Printer Hub', type: 'printer', icon: '🖨️' })}
+                        className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
+                    >
                         <span>🖨️</span> Printers
                     </button>
                 </div>
@@ -51,7 +83,11 @@ export const Sidebar: React.FC = () => {
                             { name: 'Student Union', status: 'Open • Busy', icon: '🏟️', statusColor: 'bg-yellow-500' },
                             { name: 'The Gym', status: 'Open • Moderate', icon: '🏋️', statusColor: 'bg-green-500' },
                         ].map((spot, i) => (
-                            <div key={i} className="glass-card rounded-xl p-4 flex items-center gap-4 cursor-pointer">
+                            <div
+                                key={i}
+                                onClick={() => onPlaceSelect(spot)}
+                                className="glass-card rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-colors"
+                            >
                                 <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">
                                     {spot.icon}
                                 </div>

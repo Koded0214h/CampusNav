@@ -16,16 +16,34 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 // Main Map View Component
 const MainView = () => {
-  const [showDetails, setShowDetails] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handlePlaceSelect = (place: any) => {
+    setSelectedPlace(place);
+  };
+
+  const handleClosePlaceDetails = () => {
+    setSelectedPlace(null);
+  };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden overflow-x-hidden bg-[#0d1117] relative" onClick={() => setShowDetails(!showDetails)}>
-      <Sidebar />
+    <div className="flex h-screen w-screen overflow-hidden overflow-x-hidden bg-[#0d1117] relative">
+      <Sidebar
+        onPlaceSelect={handlePlaceSelect}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
       <main className="flex-1 relative">
-        <Map />
+        <Map onPlaceSelect={handlePlaceSelect} />
       </main>
 
-      {showDetails && <PlaceDetails />}
+      {selectedPlace && (
+        <PlaceDetails
+          place={selectedPlace}
+          onClose={handleClosePlaceDetails}
+        />
+      )}
 
       {/* Decorative Blur Orbs */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
