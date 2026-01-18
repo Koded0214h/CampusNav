@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { AuthLayout } from './AuthLayout';
 
 export const Signup: React.FC = () => {
@@ -12,27 +13,91 @@ export const Signup: React.FC = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSignup = (e: React.FormEvent) => {
+    const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
 
-        if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match!');
+        // Full name validation
+        if (formData.fullName.trim().length < 3) {
+            toast.error('Please enter your full name (at least 3 characters)');
+            setIsLoading(false);
             return;
         }
 
-        // TODO: Implement actual signup logic
-        console.log('Signup with:', formData);
-        // Set auth state and redirect
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/map');
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            toast.error('Please enter a valid email address');
+            setIsLoading(false);
+            return;
+        }
+
+        // Password strength validation
+        if (formData.password.length < 8) {
+            toast.error('Password must be at least 8 characters long');
+            setIsLoading(false);
+            return;
+        }
+
+        if (!/[A-Z]/.test(formData.password)) {
+            toast.error('Password must contain at least one uppercase letter');
+            setIsLoading(false);
+            return;
+        }
+
+        if (!/[0-9]/.test(formData.password)) {
+            toast.error('Password must contain at least one number');
+            setIsLoading(false);
+            return;
+        }
+
+        // Password match validation
+        if (formData.password !== formData.confirmPassword) {
+            toast.error('Passwords do not match!');
+            setIsLoading(false);
+            return;
+        }
+
+        // Simulate API call with realistic scenarios
+        await new Promise(resolve => setTimeout(resolve, 1800));
+
+        // Simulate 20% chance of "email already exists"
+        const randomOutcome = Math.random();
+        if (randomOutcome < 0.2) {
+            toast.error('An account with this email already exists');
+            setIsLoading(false);
+            return;
+        }
+
+        // Simulate 5% chance of "server error"
+        if (randomOutcome >= 0.2 && randomOutcome < 0.25) {
+            toast.error('Server error. Please try again later.');
+            setIsLoading(false);
+            return;
+        }
+
+        // Success case
+        toast.success('Account created successfully! Redirecting...');
+        setTimeout(() => {
+            localStorage.setItem('isAuthenticated', 'true');
+            navigate('/map');
+        }, 500);
+        setIsLoading(false);
     };
 
-    const handleGoogleSignup = () => {
-        // TODO: Implement Google OAuth
-        console.log('Google signup');
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/map');
+    const handleGoogleSignup = async () => {
+        setIsLoading(true);
+        // Simulate Google OAuth flow
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        toast.success('Account created with Google successfully!');
+        setTimeout(() => {
+            localStorage.setItem('isAuthenticated', 'true');
+            navigate('/map');
+        }, 500);
+        setIsLoading(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,9 +241,10 @@ export const Signup: React.FC = () => {
                     {/* Signup Button */}
                     <button
                         type="submit"
-                        className="w-full h-12 bg-blue-500 hover:bg-blue-600 rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all duration-200 hover:scale-[1.02]"
+                        disabled={isLoading}
+                        className="w-full h-12 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all duration-200 hover:scale-[1.02]  disabled:hover:scale-100"
                     >
-                        Create Account
+                        {isLoading ? 'Creating Account...' : 'Create Account'}
                     </button>
                 </form>
 

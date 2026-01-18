@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { AuthLayout } from './AuthLayout';
 
 export const Login: React.FC = () => {
@@ -7,21 +8,72 @@ export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Implement actual login logic
-        console.log('Login with:', { email, password });
-        // Set auth state and redirect
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/map');
+        setIsLoading(true);
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            toast.error('Please enter a valid email address');
+            setIsLoading(false);
+            return;
+        }
+
+        // Password validation
+        if (password.length < 6) {
+            toast.error('Password must be at least 6 characters');
+            setIsLoading(false);
+            return;
+        }
+
+        // Simulate API call with realistic scenarios
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Simulate 30% chance of "incorrect credentials"
+        const randomOutcome = Math.random();
+        if (randomOutcome < 0.3) {
+            toast.error('Invalid email or password. Please try again.');
+            setIsLoading(false);
+            return;
+        }
+
+        // Simulate 10% chance of "account not found"
+        if (randomOutcome >= 0.3 && randomOutcome < 0.4) {
+            toast.error('No account found with this email address');
+            setIsLoading(false);
+            return;
+        }
+
+        // Simulate 5% chance of "account locked"
+        if (randomOutcome >= 0.4 && randomOutcome < 0.45) {
+            toast.error('Account temporarily locked. Too many failed attempts.');
+            setIsLoading(false);
+            return;
+        }
+
+        // Success case
+        toast.success('Login successful! Welcome back.');
+        setTimeout(() => {
+            localStorage.setItem('isAuthenticated', 'true');
+            navigate('/map');
+        }, 500);
+        setIsLoading(false);
     };
 
-    const handleGoogleLogin = () => {
-        // TODO: Implement Google OAuth
-        console.log('Google login');
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/map');
+    const handleGoogleLogin = async () => {
+        setIsLoading(true);
+        // Simulate Google OAuth flow
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        toast.success('Signed in with Google successfully!');
+        setTimeout(() => {
+            localStorage.setItem('isAuthenticated', 'true');
+            navigate('/map');
+        }, 500);
+        setIsLoading(false);
     };
 
     return (
@@ -101,9 +153,10 @@ export const Login: React.FC = () => {
                     {/* Login Button */}
                     <button
                         type="submit"
-                        className="w-full h-12 bg-blue-500 hover:bg-blue-600 rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all duration-200 hover:scale-[1.02]"
+                        disabled={isLoading}
+                        className="w-full h-12 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all duration-200 hover:scale-[1.02] disabled:hover:scale-100"
                     >
-                        Sign In
+                        {isLoading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
 
@@ -120,7 +173,8 @@ export const Login: React.FC = () => {
                 {/* Google Login */}
                 <button
                     onClick={handleGoogleLogin}
-                    className="w-full h-12 glass-card rounded-xl flex items-center justify-center gap-3 font-semibold hover:bg-white/10 transition-all duration-200"
+                    disabled={isLoading}
+                    className="w-full h-12 glass-card rounded-xl flex items-center justify-center gap-3 font-semibold hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 disabled:hover:bg-transparent"
                 >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" />
