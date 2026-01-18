@@ -2,8 +2,8 @@ import React from 'react';
 
 export const PlaceDetails: React.FC = () => {
     return (
-        <div className="absolute top-6 left-88 w-96 max-h-[calc(100vh-48px)] glass-effect rounded-2xl overflow-hidden flex flex-col z-20 animate-in fade-in slide-in-from-left-4 duration-300">
-            <div className="relative h-48">
+        <div className="fixed bottom-0 left-0 w-full md:absolute md:top-6 md:left-88 md:w-96 md:bottom-auto h-[60vh] md:max-h-[calc(100vh-48px)] glass-effect rounded-t-[32px] md:rounded-2xl overflow-hidden flex flex-col z-[35] animate-in fade-in slide-in-from-bottom-4 md:slide-in-from-left-4 duration-300">
+            <div className="relative h-48 shrink-0">
                 <img
                     src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&q=80&w=800"
                     alt="Engineering Lecture Theater"
@@ -19,6 +19,8 @@ export const PlaceDetails: React.FC = () => {
                 <div className="absolute bottom-4 left-4 glass-card px-2 py-1 rounded bg-black/40 text-[10px] flex items-center gap-1">
                     <span>📷</span> 8 Photos
                 </div>
+                {/* Mobile Handle for details */}
+                <div className="md:hidden absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-white/40 rounded-full"></div>
             </div>
 
             <div className="p-5 flex flex-col gap-4 overflow-y-auto">
@@ -35,27 +37,27 @@ export const PlaceDetails: React.FC = () => {
                 </div>
 
                 <div className="flex gap-2">
-                    <button className="flex-1 h-11 bg-blue-500 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg shadow-blue-500/20">
+                    <button className="flex-1 h-12 bg-blue-500 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg shadow-blue-500/20">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                         </svg>
                         Navigate Here
                     </button>
-                    <button className="w-11 h-11 glass-card rounded-xl flex items-center justify-center">
+                    <button className="w-12 h-12 glass-card rounded-xl flex items-center justify-center">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
                     {[
                         { label: 'Open Now', value: 'Closes at 10:00 PM', icon: '🕒' },
                         { label: 'Capacity', value: '250 Seats • Lecture Style', icon: '👥' },
                         { label: 'Accessibility', value: 'Wheelchair accessible via North Lift', icon: '♿' },
                     ].map((item, i) => (
                         <div key={i} className="flex gap-3">
-                            <div className="w-8 h-8 glass-card rounded-lg flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 glass-card rounded-lg flex items-center justify-center shrink-0">
                                 {item.icon}
                             </div>
                             <div>
@@ -66,7 +68,7 @@ export const PlaceDetails: React.FC = () => {
                     ))}
                 </div>
 
-                <div className="mt-2">
+                <div className="mt-2 mb-4">
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="text-sm font-bold">Student Tips</h3>
                         <button className="text-[10px] font-bold text-blue-400">View All</button>
@@ -91,3 +93,4 @@ export const PlaceDetails: React.FC = () => {
         </div>
     );
 };
+
