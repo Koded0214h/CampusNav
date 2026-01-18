@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { getLocations } from '../services/api';
 
 interface SidebarProps {
     onPlaceSelect: (place: any) => void;
@@ -10,6 +11,8 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, setSearchQuery }) => {
     const navigate = useNavigate();
+    const [places, setPlaces] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
@@ -17,55 +20,64 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
         navigate('/login');
     };
 
-    const allPlaces = [
-        {
-            name: 'Main Library',
-            status: 'Open • Quiet Zone',
-            icon: '📖',
-            statusColor: 'bg-green-500',
-            type: 'Library',
-            distance: '200m',
-            rating: 4.5,
-            reviewCount: 128,
-            isOpen: true,
-            closesAt: '10:00 PM',
-            capacity: '500+ seats • Study Zones',
-            accessibility: 'Wheelchair accessible via Main Entrance'
-        },
-        {
-            name: 'Student Union',
-            status: 'Open • Busy',
-            icon: '🏟️',
-            statusColor: 'bg-yellow-500',
-            type: 'Recreation',
-            distance: '150m',
-            rating: 4.3,
-            reviewCount: 94,
-            isOpen: true,
-            closesAt: '11:00 PM',
-            capacity: '300+ capacity • Event Space',
-            accessibility: 'Fully accessible'
-        },
-        {
-            name: 'The Gym',
-            status: 'Open • Moderate',
-            icon: '🏋️',
-            statusColor: 'bg-green-500',
-            type: 'Fitness',
-            distance: '350m',
-            rating: 4.7,
-            reviewCount: 156,
-            isOpen: true,
-            closesAt: '9:00 PM',
-            capacity: '50+ equipment • Group Classes',
-            accessibility: 'Ground floor accessible'
-        },
-    ];
+    useEffect(() => {
+        const fetchPlaces = async () => {
+            setLoading(true);
+            try {
+                const response = await getLocations(searchQuery);
+                setPlaces(response.data);
+            } catch (error) {
+                console.error("Error fetching places:", error);
+                // toast.error("Failed to load places"); // Optional: don't annoy user if backend is down
+                
+                // Fallback to dummy data if backend fails (for demo purposes)
+                if (searchQuery === '') { // Only populate dummy on empty search if fail
+                     setPlaces([
+                        {
+                            id: 'd1',
+                            name: 'Main Library (Demo)',
+                            type: 'library',
+                            latitude: 0, longitude: 0,
+                            icon: '📖',
+                            statusColor: 'bg-green-500',
+                            status: 'Open',
+                            description: 'Fallback data - Backend unreachable'
+                        },
+                         {
+                            id: 'd2',
+                            name: 'Student Union (Demo)',
+                            type: 'facility',
+                            latitude: 0, longitude: 0,
+                             icon: '🏟️',
+                             statusColor: 'bg-yellow-500',
+                             status: 'Busy'
+                        }
+                    ]);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const filteredPlaces = allPlaces.filter(place =>
-        place.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        place.type.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+        const timeoutId = setTimeout(() => {
+            fetchPlaces();
+        }, 300); // Debounce
+
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
+
+    const getIconForType = (type: string) => {
+        switch (type.toLowerCase()) {
+            case 'library': return '📖';
+            case 'lecture_hall': return '🎓';
+            case 'hostel': return '🏠';
+            case 'facility': return '🏢';
+            case 'canteen': return '🍴';
+            case 'printer': return '🖨️';
+            default: return '📍';
+        }
+    };
+
     return (
         <>
             {/* Mobile Handle - Only visible on small screens */}
@@ -112,13 +124,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
 
                 <div className="flex gap-2">
                     <button
-                        onClick={() => onPlaceSelect({ name: 'Campus Canteen', type: 'canteen', icon: '🍴' })}
+                        onClick={() => setSearchQuery('canteen')}
                         className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
                     >
                         <span>🍴</span> Canteen
                     </button>
                     <button
-                        onClick={() => onPlaceSelect({ name: 'Printer Hub', type: 'printer', icon: '🖨️' })}
+                        onClick={() => setSearchQuery('printer')}
                         className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
                     >
                         <span>🖨️</span> Printers
@@ -127,28 +139,32 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
 
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-sm font-semibold text-white/80">Popular Spots</h2>
-                        {searchQuery && (
-                            <span className="text-xs text-white/50">{filteredPlaces.length} results</span>
+                        <h2 className="text-sm font-semibold text-white/80">
+                            {loading ? 'Searching...' : 'Places'}
+                        </h2>
+                        {searchQuery && !loading && (
+                            <span className="text-xs text-white/50">{places.length} results</span>
                         )}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
-                        {filteredPlaces.length > 0 ? (
-                            filteredPlaces.map((spot, i) => (
+                        {loading ? (
+                             <div className="glass-card rounded-xl p-8 text-center text-white/50 animate-pulse">Loading...</div>
+                        ) : places.length > 0 ? (
+                            places.map((spot, i) => (
                                 <div
-                                    key={i}
+                                    key={spot.id || i}
                                     onClick={() => onPlaceSelect(spot)}
                                     className="glass-card rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-colors"
                                 >
                                     <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">
-                                        {spot.icon}
+                                        {spot.icon || getIconForType(spot.type || 'other')}
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="text-sm font-bold">{spot.name}</h3>
                                         <div className="flex items-center gap-2 mt-0.5">
-                                            <div className={`w-1.5 h-1.5 rounded-full ${spot.statusColor}`}></div>
-                                            <span className="text-[10px] text-white/50">{spot.status}</span>
+                                            <div className={`w-1.5 h-1.5 rounded-full ${spot.statusColor || 'bg-gray-500'}`}></div>
+                                            <span className="text-[10px] text-white/50">{spot.type}</span>
                                         </div>
                                     </div>
                                     <svg className="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
