@@ -6,8 +6,8 @@ export const Sidebar: React.FC = () => {
             {/* Mobile Handle - Only visible on small screens */}
             <div className="md:hidden fixed bottom-[40vh] left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/20 rounded-full z-40 mb-2"></div>
 
-            <div className="fixed bottom-0 left-0 w-full h-[40vh] md:relative md:bottom-auto md:w-80 md:h-full glass-effect md:rounded-none rounded-t-[32px] p-6 flex flex-col gap-6 z-30 overflow-y-auto md:overflow-visible">
-                <div className="flex items-center justify-between md:justify-start gap-3">
+            <div className="fixed bottom-0 left-0 w-full h-[40vh] md:relative md:bottom-auto md:w-80 md:h-full glass-effect md:rounded-none rounded-t-[32px] p-4 md:p-6 flex flex-col gap-4 md:gap-6 z-30 overflow-y-auto md:overflow-visible">
+                <div className="flex items-center justify-between md:justify-start gap-2 md:gap-3">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
                             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,7 +15,7 @@ export const Sidebar: React.FC = () => {
                             </svg>
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold tracking-tight">CampusNav</h1>
+                            <h1 className="text-lg md:text-xl font-bold tracking-tight">CampusNav</h1>
                             <p className="text-[10px] text-white/50 uppercase tracking-widest font-semibold">Student Map & Insights</p>
                         </div>
                     </div>
@@ -26,7 +26,7 @@ export const Sidebar: React.FC = () => {
                     <input
                         type="text"
                         placeholder="Search (e.g., 'LT 2')..."
-                        className="w-full h-12 glass-input rounded-xl pl-11 pr-4 text-sm"
+                        className="w-full h-10 md:h-12 glass-input rounded-xl pl-9 md:pl-11 pr-4 text-xs md:text-sm"
                     />
                     <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
