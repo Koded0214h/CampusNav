@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthLayout } from './AuthLayout';
 
 export const Signup: React.FC = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -21,11 +23,16 @@ export const Signup: React.FC = () => {
 
         // TODO: Implement actual signup logic
         console.log('Signup with:', formData);
+        // Set auth state and redirect
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/map');
     };
 
     const handleGoogleSignup = () => {
         // TODO: Implement Google OAuth
         console.log('Google signup');
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/map');
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,7 +209,7 @@ export const Signup: React.FC = () => {
                 {/* Login Link */}
                 <p className="text-center text-sm text-white/60">
                     Already have an account?{' '}
-                    <button className="text-blue-400 hover:text-blue-300 font-bold">
+                    <button onClick={() => navigate('/login')} className="text-blue-400 hover:text-blue-300 font-bold">
                         Sign In
                     </button>
                 </p>

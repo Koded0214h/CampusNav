@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthLayout } from './AuthLayout';
 
 export const Login: React.FC = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -10,11 +12,16 @@ export const Login: React.FC = () => {
         e.preventDefault();
         // TODO: Implement actual login logic
         console.log('Login with:', { email, password });
+        // Set auth state and redirect
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/map');
     };
 
     const handleGoogleLogin = () => {
         // TODO: Implement Google OAuth
         console.log('Google login');
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/map');
     };
 
     return (
@@ -127,7 +134,7 @@ export const Login: React.FC = () => {
                 {/* Signup Link */}
                 <p className="text-center text-sm text-white/60">
                     Don't have an account?{' '}
-                    <button className="text-blue-400 hover:text-blue-300 font-bold">
+                    <button onClick={() => navigate('/signup')} className="text-blue-400 hover:text-blue-300 font-bold">
                         Sign Up
                     </button>
                 </p>
