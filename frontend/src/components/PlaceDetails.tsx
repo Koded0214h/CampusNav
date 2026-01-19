@@ -5,6 +5,7 @@ import { getLocationTypeDetails } from '../utils/locationUtils';
 interface PlaceDetailsProps {
     place: any;
     onClose: () => void;
+    onNavigate?: () => void;
 }
 
 // Helper to generate consistent mock data based on place ID/Name
@@ -27,7 +28,7 @@ const getMockDetails = (place: any) => {
     };
 };
 
-export const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place, onClose }) => {
+export const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place, onClose, onNavigate }) => {
     const typeDetails = getLocationTypeDetails(place.type);
     const details = useMemo(() => getMockDetails(place), [place]);
     // Merge passed place data with mock details (real data takes precedence if it existed)
@@ -104,7 +105,8 @@ export const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place, onClose }) =>
                     <button
                         onClick={() => {
                             toast.success(`Getting directions to ${fullPlace.name}...`);
-                            setTimeout(() => onClose(), 1500);
+                            if (onNavigate) onNavigate();
+                            else setTimeout(() => onClose(), 1500); // Fallback
                         }}
                         className="flex-1 h-12 md:h-12 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-2 text-sm"
                     >

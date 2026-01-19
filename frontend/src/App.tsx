@@ -17,14 +17,22 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 // Main Map View Component
 const MainView = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [destination, setDestination] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handlePlaceSelect = (place: any) => {
     setSelectedPlace(place);
+    // Optional: Clear route when selecting a new place if desired, or keep it.
+    // setDestination(null); 
   };
 
   const handleClosePlaceDetails = () => {
     setSelectedPlace(null);
+  };
+
+  const handleNavigate = (place: any) => {
+    setDestination(place);
+    setSelectedPlace(null); // Close details to show map
   };
 
   return (
@@ -35,13 +43,18 @@ const MainView = () => {
         setSearchQuery={setSearchQuery}
       />
       <main className="flex-1 relative">
-        <Map onPlaceSelect={handlePlaceSelect} />
+        <Map 
+          onPlaceSelect={handlePlaceSelect} 
+          destination={destination}
+          onClearRoute={() => setDestination(null)}
+        />
       </main>
 
       {selectedPlace && (
         <PlaceDetails
           place={selectedPlace}
           onClose={handleClosePlaceDetails}
+          onNavigate={() => handleNavigate(selectedPlace)}
         />
       )}
 

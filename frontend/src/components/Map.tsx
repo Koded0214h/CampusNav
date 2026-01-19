@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, Polyline } from '@react-google-maps/api';
 import toast from 'react-hot-toast';
 import { getLocations } from '../services/api';
 import { getLocationTypeDetails } from '../utils/locationUtils';
 
 interface MapProps {
     onPlaceSelect: (place: any) => void;
+    destination?: any;
+    onClearRoute?: () => void;
 }
 
 const containerStyle = {
@@ -70,7 +72,7 @@ const PlaceholderMap: React.FC<{ onPlaceSelect: any, message?: string }> = ({ on
     );
 };
 
-export const Map: React.FC<MapProps> = ({ onPlaceSelect }) => {
+export const Map: React.FC<MapProps> = ({ onPlaceSelect, destination, onClearRoute }) => {
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     
     const { isLoaded, loadError } = useJsApiLoader({
@@ -168,6 +170,23 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect }) => {
                     />
                  );
             })}
+
+            {destination && (
+                <Polyline
+                    path={[defaultCenter, { lat: destination.latitude, lng: destination.longitude }]}
+                    options={{
+                        strokeColor: "#3b82f6",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 4,
+                        geodesic: true,
+                        icons: [{
+                            icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
+                            offset: '100%',
+                            repeat: '50px'
+                        }]
+                    }}
+                />
+            )}
             
             {/* Custom Controls Overlay (reusing the ones from placeholder) */}
             <div className="absolute top-4 md:top-6 right-4 md:right-6 flex items-center gap-2 md:gap-3">
@@ -183,6 +202,20 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect }) => {
                     <span className="hidden sm:inline">Layers</span>
                 </button>
             </div>
+
+            {destination && (
+                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 md:bottom-8 md:left-auto md:right-6 md:translate-x-0">
+                    <button
+                        onClick={onClearRoute}
+                        className="h-10 px-4 bg-red-500 hover:bg-red-600 text-white rounded-full font-bold shadow-lg shadow-red-500/30 flex items-center gap-2 animate-in slide-in-from-bottom-4 fade-in duration-300"
+                    >
+                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Clear Route
+                    </button>
+                </div>
+            )}
         </GoogleMap>
     ) : (
         <div className="flex items-center justify-center h-full bg-[#0d1117] text-white">
