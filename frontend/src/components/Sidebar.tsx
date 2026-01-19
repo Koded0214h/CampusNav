@@ -104,26 +104,48 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search (e.g., 'LT 2')..."
-                        className="w-full h-10 md:h-12 glass-input rounded-xl pl-9 md:pl-11 pr-4 text-xs md:text-sm"
+                        className="w-full h-10 md:h-12 glass-input rounded-xl pl-9 md:pl-11 pr-10 text-xs md:text-sm"
                     />
                     <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
+                    {searchQuery && (
+                        <button
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors"
+                        >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    )}
                 </div>
 
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => setSearchQuery('canteen')}
-                        className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
-                    >
-                        <span>🍴</span> Canteen
-                    </button>
-                    <button
-                        onClick={() => setSearchQuery('printer')}
-                        className="flex-1 h-10 glass-card rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
-                    >
-                        <span>🖨️</span> Printers
-                    </button>
+                {/* Quick Filters */}
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+                    {[
+                        { id: 'all', label: 'All', icon: '🔍' },
+                        { id: 'lecture_hall', label: 'Classes', icon: '🎓' },
+                        { id: 'library', label: 'Libraries', icon: '📖' },
+                        { id: 'canteen', label: 'Food', icon: '🍴' },
+                        { id: 'hostel', label: 'Hostels', icon: '🏠' },
+                        { id: 'printer', label: 'Print', icon: '🖨️' },
+                        { id: 'facility', label: 'Other', icon: '🏢' },
+                    ].map((category) => (
+                        <button
+                            key={category.id}
+                            onClick={() => setSearchQuery(category.id === 'all' ? '' : category.id)}
+                            className={`
+                                h-8 px-3 rounded-lg text-[11px] font-bold whitespace-nowrap flex items-center gap-1.5 transition-all
+                                ${searchQuery.toLowerCase() === category.id.toLowerCase() || (category.id === 'all' && searchQuery === '') 
+                                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' 
+                                    : 'glass-card hover:bg-white/10 text-white/70'}
+                            `}
+                        >
+                            <span>{category.icon}</span>
+                            <span>{category.label}</span>
+                        </button>
+                    ))}
                 </div>
 
                 <div className="flex flex-col gap-4">
