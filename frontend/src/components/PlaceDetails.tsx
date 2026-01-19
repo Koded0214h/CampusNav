@@ -35,7 +35,7 @@ export const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place, onClose, onNa
     const fullPlace = { ...details, ...place };
 
     return (
-        <div className="fixed bottom-0 left-0 w-full md:absolute md:top-6 md:left-88 md:w-96 md:bottom-auto h-[60vh] md:max-h-[calc(100vh-48px)] glass-effect rounded-t-[32px] md:rounded-2xl overflow-hidden flex flex-col z-[35] animate-in fade-in slide-in-from-bottom-4 md:slide-in-from-left-4 duration-300 shadow-2xl shadow-black/50 border border-white/10">
+        <div className="fixed bottom-0 left-0 w-full md:absolute md:top-6 md:left-84 md:w-96 md:bottom-auto h-[60vh] md:max-h-[calc(100vh-48px)] glass-effect rounded-t-[32px] md:rounded-2xl overflow-hidden flex flex-col z-[35] animate-in fade-in slide-in-from-bottom-4 md:slide-in-from-left-4 duration-300 shadow-2xl shadow-black/50 border border-white/10">
             <div className="relative h-48 shrink-0">
                 {/* Dynamic Header Background */}
                 <div 
