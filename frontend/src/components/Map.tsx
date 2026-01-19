@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import toast from 'react-hot-toast';
 import { getLocations } from '../services/api';
+import { getLocationTypeDetails } from '../utils/locationUtils';
 
 interface MapProps {
     onPlaceSelect: (place: any) => void;
@@ -87,6 +88,23 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect }) => {
         }).catch(err => {
             console.error("Failed to fetch locations", err);
             // Don't toast error on mount to avoid spam if backend is down
+            setLocations([
+                {
+                    id: 'd1',
+                    name: 'Main Library (Demo)',
+                    type: 'library',
+                    latitude: 6.6745, 
+                    longitude: -1.5716,
+                    description: 'Fallback data - Backend unreachable'
+                },
+                 {
+                    id: 'd2',
+                    name: 'Student Union (Demo)',
+                    type: 'facility',
+                    latitude: 6.6755, 
+                    longitude: -1.5725,
+                }
+            ]);
         });
     }, []);
 
@@ -126,14 +144,30 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect }) => {
             }}
         >
             {/* Child components, such as markers, info windows, etc. */}
-            {locations.map((loc: any) => (
-                 <Marker
-                    key={loc.id}
-                    position={{ lat: loc.latitude, lng: loc.longitude }}
-                    onClick={() => onPlaceSelect(loc)}
-                    title={loc.name}
-                 />
-            ))}
+            {locations.map((loc: any) => {
+                 const details = getLocationTypeDetails(loc.type);
+                 return (
+                    <Marker
+                        key={loc.id}
+                        position={{ lat: loc.latitude, lng: loc.longitude }}
+                        onClick={() => onPlaceSelect(loc)}
+                        title={loc.name}
+                        icon={{
+                            path: google.maps.SymbolPath.CIRCLE,
+                            fillColor: details.color,
+                            fillOpacity: 1,
+                            strokeWeight: 2,
+                            strokeColor: '#FFFFFF',
+                            scale: 16
+                        }}
+                        label={{
+                            text: details.icon,
+                            fontSize: '14px',
+                            color: '#FFFFFF' // This might be ignored for emojis but good practice
+                        }}
+                    />
+                 );
+            })}
             
             {/* Custom Controls Overlay (reusing the ones from placeholder) */}
             <div className="absolute top-4 md:top-6 right-4 md:right-6 flex items-center gap-2 md:gap-3">

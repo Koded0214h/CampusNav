@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { getLocations } from '../services/api';
+import { getLocationTypeDetails } from '../utils/locationUtils';
 
 interface SidebarProps {
     onPlaceSelect: (place: any) => void;
@@ -65,18 +66,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
 
         return () => clearTimeout(timeoutId);
     }, [searchQuery]);
-
-    const getIconForType = (type: string) => {
-        switch (type.toLowerCase()) {
-            case 'library': return '📖';
-            case 'lecture_hall': return '🎓';
-            case 'hostel': return '🏠';
-            case 'facility': return '🏢';
-            case 'canteen': return '🍴';
-            case 'printer': return '🖨️';
-            default: return '📍';
-        }
-    };
 
     return (
         <>
@@ -158,7 +147,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onPlaceSelect, searchQuery, se
                                     className="glass-card rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-colors"
                                 >
                                     <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">
-                                        {spot.icon || getIconForType(spot.type || 'other')}
+                                        {spot.icon || getLocationTypeDetails(spot.type || 'other').icon}
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="text-sm font-bold">{spot.name}</h3>
