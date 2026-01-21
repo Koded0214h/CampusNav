@@ -38,7 +38,7 @@ export const LocationDetailsScreen = () => {
 
       <div className="fixed top-6 left-6 z-50 flex gap-3">
         <button 
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/search')}
           className="bg-white dark:bg-card-dark p-3 rounded-xl shadow-lg border border-gray-200 dark:border-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors" 
         >
           <span className="material-symbols-outlined">arrow_back</span>
@@ -81,7 +81,7 @@ export const LocationDetailsScreen = () => {
         <div className="p-6 space-y-8">
           <div className="grid grid-cols-2 gap-3">
             <button 
-              onClick={() => navigate('/location')}
+              onClick={() => navigate('/active-search')}
               className="bg-primary hover:bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 transition-all active:scale-95"
             >
               <span className="material-symbols-outlined">directions</span>

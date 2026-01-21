@@ -11,7 +11,7 @@ export const StudentProfileScreen = () => {
       <nav className="sticky top-0 z-50 bg-[#161f2b] border-b border-[#242f3d] px-6 py-3 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
           <button 
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/search')}
             className="p-2 hover:bg-gray-800 rounded-full text-gray-300 transition-colors mr-2"
           >
             <span className="material-symbols-outlined">arrow_back</span>
@@ -137,7 +137,7 @@ export const StudentProfileScreen = () => {
                   Filter
                 </button>
                 <button 
-                  onClick={() => navigate('/dashboard')}
+                  onClick={() => navigate('/search')}
                   className="bg-primary text-white p-2 rounded-lg shadow-sm flex items-center gap-2 px-4 text-sm font-semibold hover:bg-blue-600 transition-colors"
                 >
                   <span className="material-symbols-outlined text-sm">map</span>

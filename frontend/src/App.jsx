@@ -27,13 +27,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
+        {/* Public Routes - SplashScreen as default landing page */}
         <Route path="/" element={<SplashScreen />} />
         <Route path="/sign-in" element={<SignInScreen />} />
         <Route path="/sign-up" element={<SignUpScreen />} />
         <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
 
-        {/* Protected Routes - SearchMap as main landing page */}
+        {/* Protected Routes */}
+        <Route path="/search" element={<SearchMapScreen />} />
         <Route
           path="/dashboard"
           element={isAuthenticated ? <SearchMapScreen /> : <Navigate to="/sign-in" />}

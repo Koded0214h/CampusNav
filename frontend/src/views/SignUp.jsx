@@ -33,7 +33,7 @@ export const SignUpScreen = () => {
     //   setError(err.message || 'Failed to create account');
     // } finally {
     //   setLoading(false);
-      navigate('/dashboard');
+      navigate('/active-search');
     // }
   };
 
@@ -173,7 +173,7 @@ export const SignUpScreen = () => {
                 className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 active:scale-[0.98] flex items-center justify-center gap-2 group mt-8"
                 onClick={() => {
                   console.log('Signup button clicked');
-                  window.location.href = '/dashboard';
+                  window.location.href = '/active-search';
                 }}
               >
                 Create Account

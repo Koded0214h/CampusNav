@@ -17,12 +17,8 @@
     "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-<<<<<<< HEAD
-    "react-router-dom": "^7.0.0"
-=======
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.12.0"
->>>>>>> origin/main
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -37,13 +33,9 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
-<<<<<<< HEAD
-    "tailwindcss": "^3.4.19",
-=======
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
->>>>>>> origin/main
     "vite": "^7.2.4"
   }
 }

@@ -28,7 +28,7 @@ export const SignInScreen = () => {
     //   setError(err.message || 'Failed to sign in');
     // } finally {
     //   setLoading(false);
-      navigate('/dashboard');
+      navigate('/active-search');
     // }
   };
 
@@ -106,7 +106,7 @@ export const SignInScreen = () => {
                 type="button"
                 onClick={() => {
                   console.log('Button clicked');
-                  window.location.href = '/dashboard';
+                  window.location.href = '/active-search';
                 }}
               >
                 Sign In
