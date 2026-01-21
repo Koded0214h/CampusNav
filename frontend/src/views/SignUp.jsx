@@ -20,190 +20,179 @@ export const SignUpScreen = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (!formData.first_name || !formData.username || !formData.university_email || !formData.password) {
-    //   setError('Please fill in all required fields');
-    // }
-
-    // setLoading(true);
-    // setError('');
-    // try {
-    //   await authService.register(formData);
-    //   setSuccess('Account created successfully! Redirecting...');
-    // } catch (err) {
-    //   setError(err.message || 'Failed to create account');
-    // } finally {
-    //   setLoading(false);
-      navigate('/active-search');
-    // }
+    navigate('/active-search');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 antialiased bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-blue-500 text-white rounded-2xl mb-6 shadow-[0_0_30px_rgba(19,127,236,0.3)]">
-            <span className="material-symbols-outlined text-3xl">map</span>
+    <div className="min-h-screen flex flex-col text-white" style={{ backgroundColor: '#101922', fontFamily: 'Inter, sans-serif' }}>
+      <div className="layout-container flex h-full grow flex-col">
+        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid px-6 md:px-10 py-4" style={{ borderColor: '#2d3a4b', backgroundColor: '#101922' }}>
+          <div className="flex items-center gap-4">
+            <div className="size-8" style={{ color: '#137fec' }}>
+              <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"></path>
+                <path clipRule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236ZM4.95178 15.2312L21.4543 41.6973C22.6288 43.5809 25.3712 43.5809 26.5457 41.6973L43.0534 15.223C43.0709 15.1948 43.0878 15.1662 43.104 15.1371L41.3563 14.1648C43.104 15.1371 43.1038 15.1374 43.104 15.1371L43.1051 15.135L43.1065 15.1325L43.1101 15.1261L43.1199 15.1082C43.1276 15.094 43.1377 15.0754 43.1497 15.0527C43.1738 15.0075 43.2062 14.9455 43.244 14.8701C43.319 14.7208 43.4196 14.511 43.5217 14.2683C43.6901 13.8679 44 13.0689 44 12.2609C44 10.5573 43.003 9.22254 41.8558 8.2791C40.6947 7.32427 39.1354 6.55361 37.385 5.94477C33.8654 4.72057 29.133 4 24 4C18.867 4 14.1346 4.72057 10.615 5.94478C8.86463 6.55361 7.30529 7.32428 6.14419 8.27911C4.99695 9.22255 3.99999 10.5573 3.99999 12.2609C3.99999 13.1275 4.29264 13.9078 4.49321 14.3607C4.60375 14.6102 4.71348 14.8196 4.79687 14.9689C4.83898 15.0444 4.87547 15.1065 4.9035 15.1529C4.91754 15.1762 4.92954 15.1957 4.93916 15.2111L4.94662 15.223L4.95178 15.2312ZM35.9868 18.996L24 38.22L12.0131 18.996C12.4661 19.1391 12.9179 19.2658 13.3617 19.3718C16.4281 20.1039 20.0901 20.5217 24 20.5217C27.9099 20.5217 31.5719 20.1039 34.6383 19.3718C35.082 19.2658 35.5339 19.1391 35.9868 18.996Z" fill="currentColor" fillRule="evenodd"></path>
+              </svg>
+            </div>
+            <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Campus Nav</h2>
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Join CampusNav</h1>
-          <p className="text-slate-400 font-medium">Create your account to start exploring</p>
-        </div>
+          <nav className="flex items-center gap-8">
+            <a className="text-sm font-medium hover:text-white transition-colors" style={{ color: '#a0aab4' }} href="#">Home</a>
+            <a className="text-sm font-medium hover:text-white transition-colors" style={{ color: '#a0aab4' }} href="#">About</a>
+            <a className="text-sm font-medium hover:text-white transition-colors" style={{ color: '#a0aab4' }} href="#">Help</a>
+          </nav>
+        </header>
 
-        {/* Form Card */}
-        <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name Fields */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 ml-1">
-                    First Name *
-                  </label>
+        <main className="flex-1 flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
+          <div className="w-full max-w-[480px] rounded-2xl shadow-2xl border overflow-hidden z-10" style={{ backgroundColor: '#1c2632', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
+            <div className="p-8 sm:p-10">
+              <div className="mb-8">
+                <h1 className="text-white text-3xl font-black leading-tight tracking-[-0.033em] mb-2">Join our Campus Community</h1>
+                <p className="text-base font-normal" style={{ color: '#a0aab4' }}>Enter your details to start navigating your university.</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="text-white text-sm font-semibold ml-1">Full Name</label>
                   <input 
-                    className="w-full bg-white/10 border border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl py-3 px-4 text-white font-medium placeholder:text-slate-500 transition-all outline-none" 
-                    placeholder="John" 
+                    className="w-full rounded-lg text-white border h-14 px-4 text-base font-normal transition-all outline-none" 
+                    style={{ 
+                      borderColor: '#2d3a4b', 
+                      backgroundColor: '#25303d',
+                      color: 'white'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#137fec';
+                      e.target.style.borderWidth = '2px';
+                      e.target.style.boxShadow = '0 0 0 4px rgba(19, 127, 236, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#2d3a4b';
+                      e.target.style.borderWidth = '1px';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                    placeholder="Enter your full name" 
                     type="text"
                     name="first_name"
                     value={formData.first_name}
                     onChange={handleInputChange}
-                    required
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 ml-1">
-                    Last Name
-                  </label>
-                  <input 
-                    className="w-full bg-white/10 border border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl py-3 px-4 text-white font-medium placeholder:text-slate-500 transition-all outline-none" 
-                    placeholder="Doe" 
-                    type="text"
-                    name="last_name"
-                    value={formData.last_name}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
 
-              {/* Username */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 ml-1">
-                  Username *
-                </label>
-                <div className="relative group">
-                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">person</span>
+                <div className="flex flex-col gap-2">
+                  <label className="text-white text-sm font-semibold ml-1">University Email</label>
                   <input 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-white font-medium placeholder:text-slate-500 transition-all outline-none" 
-                    placeholder="johndoe" 
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 ml-1">
-                  University Email *
-                </label>
-                <div className="relative group">
-                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">mail</span>
-                  <input 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-white font-medium placeholder:text-slate-500 transition-all outline-none" 
-                    placeholder="john@university.edu" 
+                    className="w-full rounded-lg text-white border h-14 px-4 text-base font-normal transition-all outline-none" 
+                    style={{ 
+                      borderColor: '#2d3a4b', 
+                      backgroundColor: '#25303d',
+                      color: 'white'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#137fec';
+                      e.target.style.borderWidth = '2px';
+                      e.target.style.boxShadow = '0 0 0 4px rgba(19, 127, 236, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#2d3a4b';
+                      e.target.style.borderWidth = '1px';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                    placeholder="yourname@university.edu" 
                     type="email"
                     name="university_email"
                     value={formData.university_email}
                     onChange={handleInputChange}
-                    required
                   />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-white text-sm font-semibold ml-1">Password</label>
+                  <div className="relative flex w-full items-stretch">
+                    <input 
+                      className="w-full rounded-lg text-white border h-14 px-4 pr-12 text-base font-normal transition-all outline-none" 
+                      style={{ 
+                        borderColor: '#2d3a4b', 
+                        backgroundColor: '#25303d',
+                        color: 'white'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#137fec';
+                        e.target.style.borderWidth = '2px';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(19, 127, 236, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#2d3a4b';
+                        e.target.style.borderWidth = '1px';
+                        e.target.style.boxShadow = 'none';
+                      }}
+                      placeholder="Create a strong password" 
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                    />
+                    <div 
+                      className="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer transition-colors"
+                      style={{ color: '#a0aab4' }}
+                      onMouseEnter={(e) => e.target.style.color = '#137fec'}
+                      onMouseLeave={(e) => e.target.style.color = '#a0aab4'}
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <span className="material-symbols-outlined">
+                        {showPassword ? 'visibility_off' : 'visibility'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <button 
+                  className="w-full text-white text-base font-bold h-14 rounded-lg shadow-lg active:scale-[0.98] transition-all mt-4" 
+                  style={{ backgroundColor: '#137fec' }}
+                  onMouseEnter={(e) => e.target.style.filter = 'brightness(1.1)'}
+                  onMouseLeave={(e) => e.target.style.filter = 'brightness(1)'}
+                  type="submit"
+                >
+                  Create Account
+                </button>
+              </form>
+
+              <div className="relative my-10">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" style={{ borderColor: '#2d3a4b' }}></span>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="px-4 font-medium tracking-wider" style={{ backgroundColor: '#1c2632', color: '#a0aab4' }}>Already registered?</span>
                 </div>
               </div>
 
-              {/* Phone */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 ml-1">
-                  Phone Number
-                </label>
-                <div className="relative group">
-                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">phone</span>
-                  <input 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-white font-medium placeholder:text-slate-500 transition-all outline-none" 
-                    placeholder="+1 (555) 123-4567" 
-                    type="tel"
-                    name="phone_number"
-                    value={formData.phone_number}
-                    onChange={handleInputChange}
-                  />
-                </div>
+              <div className="text-center">
+                <button 
+                  onClick={() => navigate('/sign-in')}
+                  className="font-bold text-base transition-colors"
+                  style={{ color: '#137fec' }}
+                  onMouseEnter={(e) => e.target.style.color = 'rgba(19, 127, 236, 0.8)'}
+                  onMouseLeave={(e) => e.target.style.color = '#137fec'}
+                >
+                  Login to your account
+                </button>
               </div>
-
-              {/* Password */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 ml-1">
-                  Password *
-                </label>
-                <div className="relative group">
-                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">lock</span>
-                  <input 
-                    className="w-full pl-11 pr-12 py-3 bg-white/10 border border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-white font-medium placeholder:text-slate-500 transition-all outline-none" 
-                    placeholder="Create a strong password" 
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <button 
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-xl">
-                      {showPassword ? 'visibility_off' : 'visibility'}
-                    </span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <button 
-                type="button"
-                className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 active:scale-[0.98] flex items-center justify-center gap-2 group mt-8"
-                onClick={() => {
-                  console.log('Signup button clicked');
-                  window.location.href = '/active-search';
-                }}
-              >
-                Create Account
-                <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
-              </button>
-            </form>
-
-          {/* Divider */}
-          <div className="relative py-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10" />
             </div>
-            <div className="relative flex justify-center text-xs uppercase font-bold tracking-wider">
-              <span className="bg-white/5 px-4 text-slate-500">Already have an account?</span>
+
+            <div className="h-1.5 w-full" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
+              <div className="h-full w-1/3" style={{ backgroundColor: '#137fec' }}></div>
             </div>
           </div>
 
-          {/* Sign In Link */}
-          <button 
-            onClick={() => navigate('/sign-in')}
-            className="w-full text-primary font-bold hover:text-blue-400 transition-colors py-2"
-          >
-            Sign In Instead
-          </button>
-        </div>
+          <div className="absolute inset-0 -z-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full blur-[120px]" style={{ backgroundColor: 'rgba(19, 127, 236, 0.1)' }}></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[150px]" style={{ backgroundColor: 'rgba(19, 127, 236, 0.05)' }}></div>
+          </div>
+        </main>
 
-        {/* Footer */}
-        <p className="mt-8 text-center text-slate-500 text-sm">
-          By creating an account, you agree to our Terms of Service and Privacy Policy.
-        </p>
+        <footer className="py-6 text-center text-xs font-medium border-t" style={{ color: '#a0aab4', borderColor: '#2d3a4b', backgroundColor: '#101922' }}>
+          <p>© 2024 Campus Nav. All rights reserved.</p>
+        </footer>
       </div>
     </div>
   );
