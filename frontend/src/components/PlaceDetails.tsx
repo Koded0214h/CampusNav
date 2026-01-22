@@ -48,33 +48,28 @@ export const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place, onClose, onNa
                     <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
                 </div>
 
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 md:hidden w-8 h-8 glass-card rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors z-10"
-                >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-
-                {/* Place Icon */}
-                <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
-                    <div className="text-6xl md:text-8xl drop-shadow-2xl filter transform hover:scale-110 transition-transform duration-300">
-                        {fullPlace.icon || typeDetails.icon}
-                    </div>
-                     <div className="glass-card px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/80 border border-white/10">
-                        {typeDetails.label}
-                    </div>
-                </div>
-
-                <div className="absolute top-4 right-4 hidden md:flex gap-2">
-                    <button className="w-8 h-8 glass-card rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors">
+                {/* Top Action Buttons */}
+                <div className="absolute top-4 right-4 flex gap-2 z-20">
+                    <button 
+                        className="w-8 h-8 glass-card rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors"
+                        title="Save to favorites"
+                    >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                         </svg>
                     </button>
+                    <button
+                        onClick={onClose}
+                        className="w-8 h-8 glass-card rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                        title="Close details"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
+
+                {/* Place Icon */}
                 
                 {/* Mobile Handle for details */}
                 <div className="md:hidden absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-white/40 rounded-full"></div>

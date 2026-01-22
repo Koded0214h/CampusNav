@@ -204,7 +204,7 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect, destination, onClearRou
             </div>
 
             {destination && (
-                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 md:bottom-8 md:left-auto md:right-6 md:translate-x-0">
+                <div className="absolute bottom-[42vh] left-1/2 transform -translate-x-1/2 md:bottom-8 md:left-auto md:right-6 md:translate-x-0 z-20">
                     <button
                         onClick={onClearRoute}
                         className="h-10 px-4 bg-red-500 hover:bg-red-600 text-white rounded-full font-bold shadow-lg shadow-red-500/30 flex items-center gap-2 animate-in slide-in-from-bottom-4 fade-in duration-300"
