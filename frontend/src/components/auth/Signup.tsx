@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AuthLayout } from './AuthLayout';
+import { useGoogleLogin } from '@react-oauth/google'; // Added for Google OAuth
+import api from '../../services/api';
 
 export const Signup: React.FC = () => {
     const navigate = useNavigate();
@@ -87,18 +89,33 @@ export const Signup: React.FC = () => {
         setIsLoading(false);
     };
 
-    const handleGoogleSignup = async () => {
-        setIsLoading(true);
-        // Simulate Google OAuth flow
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        toast.success('Account created with Google successfully!');
-        setTimeout(() => {
-            localStorage.setItem('isAuthenticated', 'true');
-            navigate('/map');
-        }, 500);
-        setIsLoading(false);
-    };
+    const googleSignup = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsLoading(true);
+            try {
+                // Send the access token to your backend
+                const response = await api.post('auth/google/', {
+                    access_token: tokenResponse.access_token,
+                });
+                // Assuming your backend returns a token
+                const { key } = response.data;
+                localStorage.setItem('authToken', key);
+                localStorage.setItem('isAuthenticated', 'true');
+                toast.success('Account created with Google successfully!');
+                navigate('/map');
+            } catch (error) {
+                console.error('Google signup failed on backend:', error);
+                toast.error('Google signup failed. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        onError: (errorResponse) => {
+            console.error('Google signup failed:', errorResponse);
+            toast.error('Google signup failed. Please try again.');
+            setIsLoading(false);
+        },
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -260,7 +277,7 @@ export const Signup: React.FC = () => {
 
                 {/* Google Signup */}
                 <button
-                    onClick={handleGoogleSignup}
+                    onClick={() => googleSignup()}
                     className="w-full h-12 glass-card rounded-xl flex items-center justify-center gap-3 font-semibold hover:bg-white/10 transition-all duration-200"
                 >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">

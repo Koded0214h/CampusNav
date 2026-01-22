@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AuthLayout } from './AuthLayout';
+import { useGoogleLogin } from '@react-oauth/google';
+import api from '../../services/api';
 
 export const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -63,18 +65,33 @@ export const Login: React.FC = () => {
         setIsLoading(false);
     };
 
-    const handleGoogleLogin = async () => {
-        setIsLoading(true);
-        // Simulate Google OAuth flow
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        toast.success('Signed in with Google successfully!');
-        setTimeout(() => {
-            localStorage.setItem('isAuthenticated', 'true');
-            navigate('/map');
-        }, 500);
-        setIsLoading(false);
-    };
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsLoading(true);
+            try {
+                // Send the access token to your backend
+                const response = await api.post('auth/google/', {
+                    access_token: tokenResponse.access_token,
+                });
+                // Assuming your backend returns a token
+                const { key } = response.data;
+                localStorage.setItem('authToken', key);
+                localStorage.setItem('isAuthenticated', 'true');
+                toast.success('Signed in with Google successfully!');
+                navigate('/map');
+            } catch (error) {
+                console.error('Google login failed on backend:', error);
+                toast.error('Google login failed. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        onError: (errorResponse) => {
+            console.error('Google login failed:', errorResponse);
+            toast.error('Google login failed. Please try again.');
+            setIsLoading(false);
+        },
+    });
 
     return (
         <AuthLayout>
@@ -172,7 +189,7 @@ export const Login: React.FC = () => {
 
                 {/* Google Login */}
                 <button
-                    onClick={handleGoogleLogin}
+                    onClick={() => googleLogin()}
                     disabled={isLoading}
                     className="w-full h-12 glass-card rounded-xl flex items-center justify-center gap-3 font-semibold hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 disabled:hover:bg-transparent"
                 >

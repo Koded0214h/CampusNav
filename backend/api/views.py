@@ -2,8 +2,13 @@ from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+from django.conf import settings
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from .models import Campus, Location, Review, User
-from .serializers import CampusSerializer, LocationSerializer, ReviewSerializer
+from .serializers import CampusSerializer, LocationSerializer, ReviewSerializer, TokenSerializer
 from django.db.models import Q
 
 class CampusViewSet(viewsets.ReadOnlyModelViewSet):
@@ -44,12 +49,51 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def google_auth(request):
-    # TODO: Implement actual Google OAuth verification
-    # For MVP/Day 1, we might just mock or expect a token
-    return Response({"message": "Auth endpoint placeholder", "token": "mock_token"}, status=status.HTTP_200_OK)
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.helpers import complete_social_login
+from allauth.socialaccount.models import SocialAccount
+from rest_framework import viewsets, generics, status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+from django.conf import settings
+from django.shortcuts import redirect
+from django.urls import reverse
+
+# ... (other imports and viewsets)
+
+class GoogleLogin(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        access_token = request.data.get('access_token')
+        if not access_token:
+            return Response({"error": "Access token is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        adapter = GoogleOAuth2Adapter(request)
+        try:
+            # Dynamically get the SocialApp for Google
+            from allauth.socialaccount.models import SocialApp
+            app = SocialApp.objects.get(provider='google')
+            
+            # Complete the login using the adapter
+            # The complete_login method expects an HttpRequest, and a SocialApp instance
+            # It also expects the access_token (or code) and will fetch user details from Google.
+            sociallogin = adapter.complete_login(request, app, access_token=access_token)
+            
+            # Manually complete the social login process
+            # This ensures that user.backend is set and other allauth hooks run
+            complete_social_login(request, sociallogin)
+
+            user = sociallogin.user
+            # Get or create DRF token
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({"key": token.key, "user_id": user.pk}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

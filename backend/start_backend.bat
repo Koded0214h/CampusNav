@@ -1,0 +1,16 @@
+@echo off
+echo Setting up CampusNav Backend Database...
+
+cd /d "C:\Users\USER\CampusNav\backend"
+
+echo Creating migrations...
+python manage.py makemigrations auth_api
+
+echo Applying migrations...
+python manage.py migrate
+
+echo Creating superuser (optional)...
+echo You can create a superuser by running: python manage.py createsuperuser
+
+echo Starting development server...
+python manage.py runserver 8000

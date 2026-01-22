@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusNav - Search &amp; Suggestions</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#137fec",
+                        "nav-bg": "#101922",
+                        "card-light": "#f6f7f8",
+                        "text-main": "#101922"
+                    },
+                    fontFamily: {
+                        display: "Public Sans",
+                        sans: ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-sans;
+            }
+        }
+        .map-bg {
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuChRBqWHUd1lYNxIcWZ9I-KyieMvwQKh8DQcyw9h_gzWaYs9oP9EizVtQOew6vRo6DbinOwa9Z4yA6RyJmlCNku-xOeBAETZoJFUBqi_uRMQDVJDei4avBuGT1Kw6SCKGmhmboWvZLZzl6gJ8LTX-TOI4UjyM5o-n7BStNPPP90mEGvOx-Q4IqOYalzmU2MiKQ4uMaRq3BgIKpKpW5DTwh9dvuNTV5oUxhLwSoivxT5erJ6m-fd7yZ7-L0osF0TReRvzXMkyUQT7Bo);
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.6) contrast(1.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-marker {
+            box-shadow: 0 0 15px rgba(19, 127, 236, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-nav-bg text-gray-100 h-screen overflow-hidden flex">
+<aside class="w-[420px] h-full bg-nav-bg z-20 flex flex-col border-r border-gray-800 shadow-2xl">
+<div class="p-6 pb-4">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<h1 class="font-bold text-xl tracking-tight text-white">CampusNav</h1>
+<p class="text-xs text-gray-400">Navigation Mode Active</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-gray-800 rounded-full text-gray-300 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User profile" class="w-10 h-10 rounded-full border-2 border-gray-800 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi4rDseUS0S4kITrBWE1THSgdR2Juxk9QhhBZ5frfR1FH2-wy45aF09Q1Ymfv2wwMo92bJcr6asu9dKcjTqtYJSltnWhCLh6903s_za4YQpFZ2yuPc6dEIyjb_NaPCS53KHmq9aV7RhlV48gYIO0YggX9imfngALrBDKzaX7nT_OB39HB19n9g57Oz8dZlL-zvQvmoCsZQODFLE9xxi48xikOJ7mCGVkzS3y33kpd927NJ5ep5N_YLtsyhPBCVwF9lOPqFlh29vgs"/>
+</div>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">search</span>
+<input autofocus="" class="w-full bg-card-light border-none focus:ring-4 focus:ring-primary/20 rounded-2xl py-4 pl-12 pr-12 text-sm text-nav-bg font-semibold transition-all outline-none" placeholder="Search buildings, rooms, or cafes..." type="text"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-6 pb-8 custom-scrollbar">
+<section class="mt-6">
+<h2 class="text-[11px] font-bold text-gray-500 uppercase tracking-[0.15em] mb-4">Categories</h2>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center gap-3 p-3 bg-card-light rounded-2xl hover:bg-white transition-all transform hover:-translate-y-0.5 shadow-sm group">
+<div class="w-10 h-10 rounded-xl bg-white shadow-inner flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<span class="text-sm font-bold text-nav-bg">Cafeterias</span>
+</button>
+<button class="flex items-center gap-3 p-3 bg-card-light rounded-2xl hover:bg-white transition-all transform hover:-translate-y-0.5 shadow-sm group">
+<div class="w-10 h-10 rounded-xl bg-white shadow-inner flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">bed</span>
+</div>
+<span class="text-sm font-bold text-nav-bg">Hostels</span>
+</button>
+<button class="flex items-center gap-3 p-3 bg-card-light rounded-2xl hover:bg-white transition-all transform hover:-translate-y-0.5 shadow-sm group">
+<div class="w-10 h-10 rounded-xl bg-white shadow-inner flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">local_library</span>
+</div>
+<span class="text-sm font-bold text-nav-bg">Libraries</span>
+</button>
+<button class="flex items-center gap-3 p-3 bg-card-light rounded-2xl hover:bg-white transition-all transform hover:-translate-y-0.5 shadow-sm group">
+<div class="w-10 h-10 rounded-xl bg-white shadow-inner flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<span class="text-sm font-bold text-nav-bg">Gyms</span>
+</button>
+</div>
+</section>
+<section class="mt-10">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-[11px] font-bold text-gray-500 uppercase tracking-[0.15em]">Recent Destinations</h2>
+<button class="text-xs text-primary font-bold hover:opacity-80">Clear All</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 bg-gray-800/30 hover:bg-gray-800/50 rounded-2xl cursor-pointer transition-all border border-gray-800 hover:border-gray-700 group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<div>
+<p class="text-[15px] font-bold text-gray-100">Engineering Hall 4</p>
+<p class="text-xs text-gray-400 font-medium">West Wing • Room 204</p>
+</div>
+</div>
+<button class="p-2 text-primary bg-primary/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">directions</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-800/30 hover:bg-gray-800/50 rounded-2xl cursor-pointer transition-all border border-gray-800 hover:border-gray-700 group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<div>
+<p class="text-[15px] font-bold text-gray-100">Central Library</p>
+<p class="text-xs text-gray-400 font-medium">Main Square • Quiet Zone</p>
+</div>
+</div>
+<button class="p-2 text-primary bg-primary/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">directions</span>
+</button>
+</div>
+</div>
+</section>
+<div class="mt-10 p-5 bg-primary/10 border border-primary/20 rounded-2xl flex gap-4">
+<div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">campaign</span>
+</div>
+<div>
+<h4 class="font-bold text-sm text-primary">Campus Alert</h4>
+<p class="text-xs text-gray-300 leading-relaxed mt-1">North entrance construction ongoing until 5 PM today. Please use East Gate.</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 relative bg-nav-bg overflow-hidden">
+<div class="absolute inset-0 map-bg"></div>
+<div class="absolute top-6 left-6 right-6 flex justify-between pointer-events-none">
+<div></div>
+<div class="flex items-center gap-3 pointer-events-auto">
+<button class="bg-nav-bg/80 backdrop-blur-md shadow-xl px-5 py-2.5 rounded-full flex items-center gap-2 font-bold text-sm text-white hover:bg-nav-bg transition-colors border border-gray-700">
+<span class="material-symbols-outlined text-[20px] text-primary">layers</span>
+                    Layers
+                </button>
+<button class="bg-primary shadow-lg shadow-primary/30 px-6 py-2.5 rounded-full flex items-center gap-2 font-bold text-sm text-white hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-[20px]">share</span>
+                    Share Location
+                </button>
+</div>
+</div>
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-[35%] left-[58%] flex flex-col items-center">
+<div class="bg-nav-bg/90 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-2xl mb-2 border border-primary/30">
+<p class="text-[11px] font-bold text-white uppercase tracking-wider">Engineering Hall</p>
+</div>
+<div class="w-10 h-10 bg-primary rounded-full border-4 border-nav-bg shadow-2xl flex items-center justify-center glow-marker">
+<span class="material-symbols-outlined text-white text-[20px]">location_on</span>
+</div>
+</div>
+<div class="absolute top-[52%] left-[42%] flex flex-col items-center">
+<div class="w-9 h-9 bg-orange-500 rounded-full border-4 border-nav-bg shadow-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px]">restaurant</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 right-8 flex flex-col gap-3">
+<button class="w-12 h-12 bg-nav-bg/90 backdrop-blur-md rounded-full shadow-2xl border border-gray-700 flex items-center justify-center hover:bg-nav-bg transition-colors text-gray-100">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<div class="flex flex-col bg-nav-bg/90 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-700 overflow-hidden divide-y divide-gray-800">
+<button class="w-12 h-12 flex items-center justify-center hover:bg-gray-800 transition-colors text-gray-100">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center hover:bg-gray-800 transition-colors text-gray-100">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<button class="w-16 h-16 bg-primary rounded-3xl shadow-2xl shadow-primary/40 flex items-center justify-center text-white hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-4xl">directions</span>
+</button>
+</div>
+<div class="absolute bottom-8 left-8">
+<div class="flex items-center gap-4 bg-nav-bg/80 backdrop-blur-md p-1.5 rounded-2xl border border-gray-700">
+<button class="px-6 py-2 bg-primary rounded-xl text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-primary/20">
+                    Navigating
+                </button>
+</div>
+</div>
+</main>
+
+</body></html>

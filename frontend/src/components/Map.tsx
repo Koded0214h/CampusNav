@@ -22,7 +22,6 @@ const defaultCenter = {
 
 // Placeholder Map Component (The original one)
 const PlaceholderMap: React.FC<{ onPlaceSelect: any, message?: string }> = ({ onPlaceSelect, message }) => {
-    const [zoomLevel, setZoomLevel] = useState(15);
     const [showLayers, setShowLayers] = useState(false);
     return (
         <div className="absolute inset-0 bg-[#0d1117] flex items-center justify-center overflow-hidden">
@@ -80,7 +79,7 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect, destination, onClearRou
         googleMapsApiKey: apiKey || '', // Pass empty string if undefined to avoid crash, but it will fail load
     });
 
-    const [map, setMap] = React.useState<google.maps.Map | null>(null);
+    const [, setMap] = React.useState<google.maps.Map | null>(null);
     const [locations, setLocations] = useState<any[]>([]);
 
     useEffect(() => {
@@ -116,7 +115,7 @@ export const Map: React.FC<MapProps> = ({ onPlaceSelect, destination, onClearRou
         setMap(map);
     }, []);
 
-    const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
+    const onUnmount = React.useCallback(function callback() {
         setMap(null);
     }, []);
 
