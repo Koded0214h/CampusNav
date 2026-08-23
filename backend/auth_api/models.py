@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+User = get_user_model()
 
 class UserProfile(models.Model):
     """Extended user profile for CampusNav"""
@@ -45,7 +46,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class AuthToken(models.Model):
     """Store authentication tokens for session management"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='auth_token')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='custom_auth_token')
     token = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
